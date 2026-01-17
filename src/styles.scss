@@ -1,0 +1,32 @@
+@use '@angular/material' as mat;
+
+/* Include core styles */
+@include mat.core();
+
+/* RepForge Steel & Neon palettes */
+$repforge-primary: mat.define-palette(mat.$cyan-palette, 400);
+$repforge-accent: mat.define-palette(mat.$lime-palette, A200);
+$repforge-warn: mat.define-palette(mat.$red-palette);
+
+/* Define theme */
+$repforge-theme: mat.define-dark-theme((
+  color: (
+    primary: $repforge-primary,
+    accent: $repforge-accent,
+    warn: $repforge-warn,
+  ),
+));
+
+/* Apply theme */
+@include mat.all-component-themes($repforge-theme);
+
+/* Custom RepForge variables */
+@import './styles/theme';
+
+/* Global body styling */
+body {
+  margin: 0;
+  background: #0b0f14;
+  color: #e5e7eb;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

@@ -1,0 +1,95 @@
+<div class="rf-page">
+
+    <!-- NAVBAR -->
+    <div class="rf-navbar">
+        <div class="brand">
+            <img src="assets/images/logo.png" alt="RepForge Logo" class="logo">
+            RepForge - Forged in Sweat. Built by Reps.
+        </div>
+
+        <div class="nav-links">
+            <span class="active">Dashboard</span>
+            <span>Workouts</span>
+            <span>Progress</span>
+        </div>
+
+        <div class="membership">Platinum Member</div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="rf-container">
+
+        <!-- WELCOME -->
+        <div class="welcome">
+            <h2>Welcome Back, John!</h2>
+            <p>BMR Score: <span class="lime">1780 kcal/day</span></p>
+        </div>
+<button (click)="testProfile()">
+  Test Protected API
+</button>
+        <!-- TOP ROW -->
+        <div class="grid-2">
+
+            <!-- WORKOUT -->
+            <div class="rf-card">
+                <h4>Today's Workout</h4>
+                <h5>Upper Body Strength</h5>
+                <p class="muted">4 Exercises • Est. Time: 45 min</p>
+
+                <button class="neon-btn">Start Workout</button>
+            </div>
+
+            <!-- PROGRESS -->
+            <div class="rf-card">
+                <h4>This Week's Progress</h4>
+
+                <div class="progress-count">
+                    <span class="lime">5 / 6</span>
+                    <span class="muted"> Workouts Completed</span>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <button class="ghost-btn">View Stats →</button>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM ROW -->
+        <div class="grid-2">
+
+            <!-- CHART -->
+            <div class="rf-card">
+                <h4>Recent Performance</h4>
+                <div class="chart-box">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- PR -->
+            <div class="rf-card">
+                <h4>Personal Records</h4>
+
+                <div class="pr-item">
+                    <span>Bench Press</span>
+                    <strong class="lime">200 lbs</strong>
+                </div>
+
+                <div class="pr-item">
+                    <span>Deadlift</span>
+                    <strong class="lime">315 lbs</strong>
+                </div>
+
+                <div class="pr-item">
+                    <span>Squat</span>
+                    <strong class="lime">250 lbs</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

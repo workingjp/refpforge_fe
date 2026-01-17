@@ -1,0 +1,128 @@
+<!-- <div class="auth-container">
+
+  <h2 *ngIf="step === 'SEND_OTP'">Login / Register</h2>
+  <h2 *ngIf="step === 'VERIFY_OTP'">Enter OTP</h2>
+
+  <input
+    *ngIf="step === 'SEND_OTP'"
+    type="text"
+    placeholder="Email or Mobile"
+    [(ngModel)]="identifier"
+  />
+
+  <input
+    *ngIf="step === 'VERIFY_OTP'"
+    type="text"
+    placeholder="Enter OTP"
+    [(ngModel)]="otp"
+  />
+
+  <button
+    *ngIf="step === 'SEND_OTP'"
+    (click)="sendOtp()"
+    [disabled]="loading"
+  >
+    Send OTP
+  </button>
+
+  <button
+    *ngIf="step === 'VERIFY_OTP'"
+    (click)="verifyOtp()"
+    [disabled]="loading"
+  >
+    Verify OTP
+  </button>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+</div> -->
+
+
+<div class="auth-wrapper">
+  <!-- dark overlay -->
+  <div class="auth-overlay"></div>
+
+  <!-- Auth Card -->
+  <div class="auth-card">
+
+    <!-- Brand -->
+    <div class="brand">
+      <h1>RepForge</h1>
+      <p>Forged in Sweat. Built by Reps.</p>
+    </div>
+
+    <!-- Form -->
+    <form *ngIf="!logInWithOTP" [formGroup]="authForm" (ngSubmit)="createUser()">
+      <!-- Name (future-ready, optional now) -->
+      <input type="text" formControlName="firstname" placeholder="First Name" class="auth-input" />
+
+      <input type="text" formControlName="lastname" placeholder="Last Name" class="auth-input" />
+
+
+      <!-- Email / Mobile -->
+      <input type="text" formControlName="email" placeholder="Email" class="auth-input" required />
+
+      <input type="text" formControlName="mobile" numbersOnly placeholder="Phone number" class="auth-input" required />
+
+
+      <!-- <input type="text" placeholder="Otp" class="auth-input" required /> -->
+
+      <!-- Password -->
+      <input type="password" formControlName="password" placeholder="Password" class="auth-input" required />
+
+      <!-- Forgot Password -->
+      <div class="forgot">
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <!-- Action Button -->
+      <button class="primary-btn" type="submit">
+        Login / Register
+      </button>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <!-- OTP Option (future toggle) -->
+      <button type="button" class="secondary-btn" (click)="logInWithOTP = !logInWithOTP">
+        Login with OTP
+      </button>
+    </form>
+
+    <form *ngIf="logInWithOTP && !enterOTP" [formGroup]="loginForm" (ngSubmit)="sendOtp()">
+
+      <!-- Email / Mobile -->
+      <input type="text" formControlName="email" placeholder="Email" class="auth-input" required />
+
+      <!-- <input type="text" formControlName="mobile" numbersOnly placeholder="Phone number" class="auth-input" required /> -->
+
+      <!-- Action Button -->
+      <button class="primary-btn" type="submit">
+        Send OTP   
+      </button>
+
+    </form>
+
+    <form *ngIf="logInWithOTP && enterOTP" [formGroup]="verifyOTPForm" (ngSubmit)="verifyOtp()">
+
+      <!-- Email / Mobile -->
+      <input type="text" formControlName="otp" placeholder="Enter OTP" class="auth-input" required />
+
+      <!-- <input type="text" formControlName="mobile" numbersOnly placeholder="Phone number" class="auth-input" required /> -->
+
+      <!-- Action Button -->
+      <button class="primary-btn" type="submit">
+        Verify OTP
+      </button>
+
+    </form>
+
+    <!-- Footer -->
+    <div class="footer-text">
+      <span>New here?</span> <strong>Create your RepForge account</strong>
+    </div>
+
+  </div>
+</div>

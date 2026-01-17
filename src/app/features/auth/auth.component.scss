@@ -1,0 +1,180 @@
+.auth-container {
+  max-width: 360px;
+  margin: 80px auto;
+  background: #0f172a;
+  padding: 24px;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #38bdf8;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .error {
+    color: #f87171;
+    margin-top: 10px;
+  }
+}
+
+.auth-wrapper {
+  height: 100vh;
+  width: 100%;
+  background: url('/assets/images/gym-bg.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+.auth-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.95)
+  );
+}
+
+/* Card */
+.auth-card {
+  position: relative;
+  z-index: 2;
+  width: 380px;
+  padding: 32px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #0b1220, #020617);
+  box-shadow:
+    0 0 40px rgba(56, 189, 248, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Brand */
+.brand {
+  text-align: center;
+  margin-bottom: 24px;
+
+  h1 {
+    font-size: 28px;
+    color: #38bdf8;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-size: 13px;
+    color: #94a3b8;
+  }
+}
+
+/* Inputs */
+.auth-input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  background: #020617;
+  border: 1px solid #1e293b;
+  color: #e5e7eb;
+  font-size: 14px;
+
+  &:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+  }
+}
+
+/* Forgot password */
+.forgot {
+  text-align: right;
+  margin-bottom: 16px;
+
+  a {
+    font-size: 12px;
+    color: #a3e635;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Buttons */
+.primary-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #020617;
+  font-weight: 600;
+  margin-bottom: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+  }
+}
+
+.secondary-btn {
+  width: 100%;
+  padding: 11px;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid #334155;
+  color: #e5e7eb;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #a3e635;
+    color: #a3e635;
+  }
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+
+  span {
+    font-size: 12px;
+    color: #64748b;
+    margin: 0 auto;
+  }
+}
+
+/* Footer */
+.footer-text {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+
+  strong {
+    color: #38bdf8;
+    cursor: pointer;
+  }
+}
+
