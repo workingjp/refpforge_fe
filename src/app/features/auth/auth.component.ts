@@ -59,7 +59,6 @@ createUser() {
     next: (res: any) => {
 
       // this.openPopup(res?.message || 'User created successfully');
-
       // redirect after success
       setTimeout(() => {
         window.location.href = '/dashboard';
