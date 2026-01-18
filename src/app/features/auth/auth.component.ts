@@ -21,7 +21,9 @@ export class AuthComponent implements OnInit {
   verifyOTP: boolean = false;
   verifyOTPForm: FormGroup;
   savedEmail: any;
-
+  showPopup = false;
+  popupMessage = '';
+  
   constructor(private authService: AuthService, private fb: FormBuilder) {
     this.authForm = this.fb.group({
       firstname: ['', [Validators.required,Validators.minLength(2),  Validators.pattern(/^[a-zA-Z ]+$/)]],
@@ -46,6 +48,26 @@ export class AuthComponent implements OnInit {
   }
 
   createUser() {
+    if (this.authForm.invalid) {
+    this.authForm.markAllAsTouched();
+    return;
+  }
+
+  const payload = this.authForm.value;
+
+  this.authService.createUser(payload).subscribe({
+    next: (res: any) => {
+      this.openPopup(res?.message || 'Login successful');
+    },
+    error: (err: any) => {
+      const msg =
+        err?.error?.message ||
+        err?.message ||
+        'Something went wrong. Please try again';
+
+      this.openPopup(msg);
+    }
+  });
     console.log(this.authForm.value);
 
     this.authService.createUser(this.authForm.value).subscribe({
@@ -86,10 +108,19 @@ export class AuthComponent implements OnInit {
     });
   }
 
-get firstname() { return this.authForm.get('firstname'); }
-get lastname()  { return this.authForm.get('lastname'); }
-get email()     { return this.authForm.get('email')  }
-// && this.loginForm.get('email');
-get mobile()    { return this.authForm.get('mobile'); }
-get password()  { return this.authForm.get('password'); }
+  get firstname() { return this.authForm.get('firstname'); }
+  get lastname() { return this.authForm.get('lastname'); }
+  get email() { return this.authForm.get('email') }
+  // && this.loginForm.get('email');
+  get mobile() { return this.authForm.get('mobile'); }
+  get password() { return this.authForm.get('password'); }
+
+  openPopup(msg: string) {
+    this.popupMessage = msg;
+    this.showPopup = true;
+  }
+
+  closePopup() {
+    this.showPopup = false;
+  }
 }

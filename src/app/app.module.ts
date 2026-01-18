@@ -14,12 +14,14 @@ import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PopupComponent } from './features/popup/popup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    AuthComponent
+    AuthComponent,
+    PopupComponent
   ],
   imports: [
     FormsModule,

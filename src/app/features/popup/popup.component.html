@@ -1,0 +1,9 @@
+<div class="popup-backdrop" *ngIf="show">
+  <div class="popup-box">
+    <p>{{ message }}</p>
+
+    <button class="primary-btn" (click)="onClose()">
+      OK
+    </button>
+  </div>
+</div>
