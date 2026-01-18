@@ -24,11 +24,13 @@ export class AuthComponent implements OnInit {
 
   constructor(private authService: AuthService, private fb: FormBuilder) {
     this.authForm = this.fb.group({
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
+      firstname: ['', [Validators.required,Validators.minLength(2),  Validators.pattern(/^[a-zA-Z ]+$/)]],
+      lastname: ['', [Validators.required,Validators.minLength(2),  Validators.pattern(/^[a-zA-Z ]+$/)]],
       email: ['', [Validators.required, Validators.email]],
-      mobile: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      mobile: ['', [Validators.required,Validators.pattern(/^[6-9]\d{9}$/)]],
+      password: ['', [Validators.required,
+      Validators.minLength(8),
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{3,}$/)]],
     });
 
     this.loginForm = this.fb.group({
@@ -84,4 +86,10 @@ export class AuthComponent implements OnInit {
     });
   }
 
+get firstname() { return this.authForm.get('firstname'); }
+get lastname()  { return this.authForm.get('lastname'); }
+get email()     { return this.authForm.get('email')  }
+// && this.loginForm.get('email');
+get mobile()    { return this.authForm.get('mobile'); }
+get password()  { return this.authForm.get('password'); }
 }

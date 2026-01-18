@@ -55,20 +55,66 @@
     <form *ngIf="!logInWithOTP" [formGroup]="authForm" (ngSubmit)="createUser()">
       <!-- Name (future-ready, optional now) -->
       <input type="text" formControlName="firstname" placeholder="First Name" class="auth-input" />
+      <div class="error" *ngIf="firstname?.touched && firstname?.invalid">
+        <small *ngIf="firstname?.errors?.['minlength']">
+          Minimum 2 characters required
+        </small>
+        <small *ngIf="firstname?.errors?.['pattern']">
+          Only alphabets allowed
+        </small>
+      </div>
 
       <input type="text" formControlName="lastname" placeholder="Last Name" class="auth-input" />
 
+      <div class="error" *ngIf="lastname?.touched && lastname?.invalid">
+        <small *ngIf="lastname?.errors?.['minlength']">
+          Minimum 2 characters required
+        </small>
+        <small *ngIf="lastname?.errors?.['pattern']">
+          Only alphabets allowed
+        </small>
+      </div>
 
       <!-- Email / Mobile -->
       <input type="text" formControlName="email" placeholder="Email" class="auth-input" required />
+      <div class="error" *ngIf="email?.touched && email?.invalid">
+
+        <small *ngIf="email?.errors?.['required']">
+          Email is required
+        </small>
+
+        <small *ngIf="email?.errors?.['email']">
+          Please enter a valid email address
+        </small>
+
+      </div>
 
       <input type="text" formControlName="mobile" numbersOnly placeholder="Phone number" class="auth-input" required />
+      <div class="error" *ngIf="mobile?.touched && mobile?.invalid">
+        <small *ngIf="mobile?.errors?.['required']">
+          Mobile number is required
+        </small>
+        <small *ngIf="mobile?.errors?.['pattern']">
+          Enter valid 10-digit mobile number
+        </small>
+      </div>
 
 
       <!-- <input type="text" placeholder="Otp" class="auth-input" required /> -->
 
       <!-- Password -->
       <input type="password" formControlName="password" placeholder="Password" class="auth-input" required />
+      <div class="error" *ngIf="password?.touched && password?.invalid">
+        <small *ngIf="password?.errors?.['required']">
+          Password is required
+        </small>
+        <small *ngIf="password?.errors?.['minlength']">
+          Minimum 6 characters required
+        </small>
+        <small *ngIf="password?.errors?.['pattern']">
+          Must include uppercase, lowercase, number & special character
+        </small>
+      </div>
 
       <!-- Forgot Password -->
       <div class="forgot">
@@ -76,7 +122,7 @@
       </div>
 
       <!-- Action Button -->
-      <button class="primary-btn" type="submit">
+      <button type="submit" class="primary-btn" [disabled]="authForm.invalid">
         Login / Register
       </button>
 
@@ -95,12 +141,22 @@
 
       <!-- Email / Mobile -->
       <input type="text" formControlName="email" placeholder="Email" class="auth-input" required />
+      <div class="error" *ngIf="email?.touched && email?.invalid">
 
+        <small *ngIf="email?.errors?.['required']">
+          Email is required
+        </small>
+
+        <small *ngIf="email?.errors?.['email']">
+          Please enter a valid email address
+        </small>
+
+      </div>
       <!-- <input type="text" formControlName="mobile" numbersOnly placeholder="Phone number" class="auth-input" required /> -->
 
       <!-- Action Button -->
       <button class="primary-btn" type="submit">
-        Send OTP   
+        Send OTP
       </button>
 
     </form>
