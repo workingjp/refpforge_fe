@@ -47,8 +47,8 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createUser() {
-    if (this.authForm.invalid) {
+createUser() {
+  if (this.authForm.invalid) {
     this.authForm.markAllAsTouched();
     return;
   }
@@ -57,7 +57,13 @@ export class AuthComponent implements OnInit {
 
   this.authService.createUser(payload).subscribe({
     next: (res: any) => {
-      this.openPopup(res?.message || 'Login successful');
+
+      // this.openPopup(res?.message || 'User created successfully');
+
+      // redirect after success
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1500);
     },
     error: (err: any) => {
       const msg =
@@ -68,17 +74,7 @@ export class AuthComponent implements OnInit {
       this.openPopup(msg);
     }
   });
-    console.log(this.authForm.value);
-
-    this.authService.createUser(this.authForm.value).subscribe({
-      next: () => {
-        window.location.href = '/dashboard';
-      },
-      error: err => {
-        this.error = err.error.message;
-      }
-    });
-  }
+}
 
   sendOtp() {
     console.log(this.loginForm.value);
