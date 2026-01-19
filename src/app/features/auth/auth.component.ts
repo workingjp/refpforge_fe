@@ -23,6 +23,8 @@ export class AuthComponent implements OnInit {
   savedEmail: any;
   showPopup = false;
   popupMessage = '';
+  isLogin = true; // true = Login form, false = Register form
+
   
   constructor(private authService: AuthService, private fb: FormBuilder) {
     this.authForm = this.fb.group({
@@ -35,9 +37,20 @@ export class AuthComponent implements OnInit {
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{3,}$/)]],
     });
 
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required]]
-    });
+   this.loginForm = this.fb.group({
+  email: [
+    '',
+    [Validators.required, Validators.email]
+  ],
+  password: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(6),
+    ]
+  ]
+});
+
 
     this.verifyOTPForm = this.fb.group({
       otp: ['', [Validators.required]]
@@ -48,11 +61,15 @@ export class AuthComponent implements OnInit {
   }
 
 createUser() {
-  if (this.authForm.invalid) {
-    this.authForm.markAllAsTouched();
-    return;
-  }
+  console.log('called');
+  
+  // if (this.authForm.invalid) {
+  //   this.authForm.markAllAsTouched();
+  //   return;
+  // }
 
+  console.log('authform ');
+  
   const payload = this.authForm.value;
 
   this.authService.createUser(payload).subscribe({
@@ -118,4 +135,12 @@ createUser() {
   closePopup() {
     this.showPopup = false;
   }
+  showLogin() {
+    this.isLogin = true;
+  }
+
+  showRegister() {
+    this.isLogin = false;
+  }
+
 }

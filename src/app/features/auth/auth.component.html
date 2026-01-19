@@ -1,188 +1,178 @@
-<!-- <div class="auth-container">
-
-  <h2 *ngIf="step === 'SEND_OTP'">Login / Register</h2>
-  <h2 *ngIf="step === 'VERIFY_OTP'">Enter OTP</h2>
-
-  <input
-    *ngIf="step === 'SEND_OTP'"
-    type="text"
-    placeholder="Email or Mobile"
-    [(ngModel)]="identifier"
-  />
-
-  <input
-    *ngIf="step === 'VERIFY_OTP'"
-    type="text"
-    placeholder="Enter OTP"
-    [(ngModel)]="otp"
-  />
-
-  <button
-    *ngIf="step === 'SEND_OTP'"
-    (click)="sendOtp()"
-    [disabled]="loading"
-  >
-    Send OTP
-  </button>
-
-  <button
-    *ngIf="step === 'VERIFY_OTP'"
-    (click)="verifyOtp()"
-    [disabled]="loading"
-  >
-    Verify OTP
-  </button>
-
-  <p class="error" *ngIf="error">{{ error }}</p>
-
-</div> -->
-
-
 <div class="auth-wrapper">
-  <!-- dark overlay -->
   <div class="auth-overlay"></div>
 
-  <!-- Auth Card -->
   <div class="auth-card">
 
     <!-- Brand -->
     <div class="brand">
       <h1>RepForge</h1>
-      <p>Forged in Sweat. Built by Reps.</p>
+      <p>Forged in Sweat, Built by Reps 💪.</p>
     </div>
 
-    <!-- Form -->
-    <form *ngIf="!logInWithOTP" [formGroup]="authForm" (ngSubmit)="createUser()">
-      <!-- Name (future-ready, optional now) -->
-      <input type="text" formControlName="firstname" placeholder="First Name" class="auth-input" />
-      <div class="error" *ngIf="firstname?.touched && firstname?.invalid">
-        <small *ngIf="firstname?.errors?.['minlength']">
-          Minimum 2 characters required
-        </small>
-        <small *ngIf="firstname?.errors?.['pattern']">
-          Only alphabets allowed
-        </small>
+    <!-- ================= LOGIN FORM ================= -->
+  <form
+  *ngIf="!logInWithOTP && isLogin"
+  [formGroup]="loginForm"
+  (ngSubmit)="createUser()"
+>
+
+  <input type="text" formControlName="email" placeholder="Email" class="auth-input" />
+  <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+    <small *ngIf="loginForm.get('email')?.errors?.['required']">
+      Email is required
+    </small>
+    <small *ngIf="loginForm.get('email')?.errors?.['email']">
+      Please enter a valid email
+    </small>
+  </div>
+
+  <input type="password" formControlName="password" placeholder="Password" class="auth-input" />
+  <div class="error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+    <small *ngIf="loginForm.get('password')?.errors?.['required']">
+      Password is required
+    </small>
+    <small *ngIf="loginForm.get('password')?.errors?.['minlength']">
+      Minimum 6 characters required
+    </small>
+    <small *ngIf="loginForm.get('password')?.errors?.['pattern']">
+      Must include uppercase, lowercase, number & special character
+    </small>
+  </div>
+
+  <div class="forgot">
+    <a href="#">Forgot password?</a>
+  </div>
+
+  <button type="submit" class="primary-btn" [disabled]="loginForm.invalid">
+    Login
+  </button>
+
+  <div class="divider"><span>OR</span></div>
+
+  <button type="button" class="secondary-btn" (click)="logInWithOTP = true">
+    Login with OTP
+  </button>
+
+  <div class="footer-text">
+    <span>New here?</span>
+    <strong (click)="showRegister()" style="cursor:pointer">
+      Create your RepForge account
+    </strong>
+  </div>
+
+</form>
+
+
+    <!-- ================= REGISTER FORM ================= -->
+    <form
+  *ngIf="!logInWithOTP && !isLogin"
+  [formGroup]="authForm"
+  (ngSubmit)="createUser()"
+>
+
+  <input type="text" formControlName="firstname" placeholder="First Name" class="auth-input" />
+  <div class="error" *ngIf="authForm.get('firstname')?.touched && authForm.get('firstname')?.invalid">
+    <small *ngIf="authForm.get('firstname')?.errors?.['minlength']">
+      Minimum 2 characters required
+    </small>
+    <small *ngIf="authForm.get('firstname')?.errors?.['pattern']">
+      Only alphabets allowed
+    </small>
+  </div>
+
+  <input type="text" formControlName="lastname" placeholder="Last Name" class="auth-input" />
+
+  <input type="text" formControlName="email" placeholder="Email" class="auth-input" />
+  <div class="error" *ngIf="authForm.get('email')?.touched && authForm.get('email')?.invalid">
+    <small *ngIf="authForm.get('email')?.errors?.['required']">
+      Email is required
+    </small>
+    <small *ngIf="authForm.get('email')?.errors?.['email']">
+      Invalid email
+    </small>
+  </div>
+
+  <input type="text" formControlName="mobile" placeholder="Phone number" class="auth-input" />
+  <div class="error" *ngIf="authForm.get('mobile')?.touched && authForm.get('mobile')?.invalid">
+    <small *ngIf="authForm.get('mobile')?.errors?.['required']">
+      Mobile number is required
+    </small>
+    <small *ngIf="authForm.get('mobile')?.errors?.['pattern']">
+      Enter valid 10-digit mobile number
+    </small>
+  </div>
+
+  <input type="password" formControlName="password" placeholder="Password" class="auth-input" />
+  <div class="error" *ngIf="authForm.get('password')?.touched && authForm.get('password')?.invalid">
+    <small *ngIf="authForm.get('password')?.errors?.['required']">
+      Password is required
+    </small>
+    <small *ngIf="authForm.get('password')?.errors?.['minlength']">
+      Minimum 6 characters required
+    </small>
+    <small *ngIf="authForm.get('password')?.errors?.['pattern']">
+      Must include uppercase, lowercase, number & special character
+    </small>
+  </div>
+
+  <button type="submit" class="primary-btn" [disabled]="authForm.invalid">
+    Register
+  </button>
+
+  <div class="divider"><span>OR</span></div>
+
+  <button type="button" class="secondary-btn" (click)="logInWithOTP = true">
+    Login with OTP
+  </button>
+
+  <div class="footer-text">
+    <span>Already have an account?</span>
+    <strong (click)="showLogin()" style="cursor:pointer">
+      Login Here
+    </strong>
+  </div>
+
+</form>
+
+
+    <!-- ================= OTP : SEND OTP ================= -->
+    <form
+      *ngIf="logInWithOTP && !enterOTP"
+      [formGroup]="loginForm"
+      (ngSubmit)="sendOtp()"
+    >
+
+      <input type="text" formControlName="email" placeholder="Email" class="auth-input" />
+      <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
+        <small *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email</small>
       </div>
 
-      <input type="text" formControlName="lastname" placeholder="Last Name" class="auth-input" />
-
-      <div class="error" *ngIf="lastname?.touched && lastname?.invalid">
-        <small *ngIf="lastname?.errors?.['minlength']">
-          Minimum 2 characters required
-        </small>
-        <small *ngIf="lastname?.errors?.['pattern']">
-          Only alphabets allowed
-        </small>
-      </div>
-
-      <!-- Email / Mobile -->
-      <input type="text" formControlName="email" placeholder="Email" class="auth-input" required />
-      <div class="error" *ngIf="email?.touched && email?.invalid">
-
-        <small *ngIf="email?.errors?.['required']">
-          Email is required
-        </small>
-
-        <small *ngIf="email?.errors?.['email']">
-          Please enter a valid email address
-        </small>
-
-      </div>
-
-      <input type="text" formControlName="mobile" numbersOnly placeholder="Phone number" class="auth-input" required />
-      <div class="error" *ngIf="mobile?.touched && mobile?.invalid">
-        <small *ngIf="mobile?.errors?.['required']">
-          Mobile number is required
-        </small>
-        <small *ngIf="mobile?.errors?.['pattern']">
-          Enter valid 10-digit mobile number
-        </small>
-      </div>
-
-
-      <!-- <input type="text" placeholder="Otp" class="auth-input" required /> -->
-
-      <!-- Password -->
-      <input type="password" formControlName="password" placeholder="Password" class="auth-input" required />
-      <div class="error" *ngIf="password?.touched && password?.invalid">
-        <small *ngIf="password?.errors?.['required']">
-          Password is required
-        </small>
-        <small *ngIf="password?.errors?.['minlength']">
-          Minimum 6 characters required
-        </small>
-        <small *ngIf="password?.errors?.['pattern']">
-          Must include uppercase, lowercase, number & special character
-        </small>
-      </div>
-
-      <!-- Forgot Password -->
-      <div class="forgot">
-        <a href="#">Forgot password?</a>
-      </div>
-
-      <!-- Action Button -->
-      <button type="submit" class="primary-btn" [disabled]="authForm.invalid">
-        Login / Register
-      </button>
-
-      <!-- Divider -->
-      <div class="divider">
-        <span>OR</span>
-      </div>
-
-      <!-- OTP Option (future toggle) -->
-      <button type="button" class="secondary-btn" (click)="logInWithOTP = !logInWithOTP">
-        Login with OTP
-      </button>
-    </form>
-
-    <form *ngIf="logInWithOTP && !enterOTP" [formGroup]="loginForm" (ngSubmit)="sendOtp()">
-
-      <!-- Email / Mobile -->
-      <input type="text" formControlName="email" placeholder="Email" class="auth-input" required />
-      <div class="error" *ngIf="email?.touched && email?.invalid">
-
-        <small *ngIf="email?.errors?.['required']">
-          Email is required
-        </small>
-
-        <small *ngIf="email?.errors?.['email']">
-          Please enter a valid email address
-        </small>
-
-      </div>
-      <!-- <input type="text" formControlName="mobile" numbersOnly placeholder="Phone number" class="auth-input" required /> -->
-
-      <!-- Action Button -->
       <button class="primary-btn" type="submit">
         Send OTP
       </button>
 
     </form>
 
-    <form *ngIf="logInWithOTP && enterOTP" [formGroup]="verifyOTPForm" (ngSubmit)="verifyOtp()">
+    <!-- ================= OTP : VERIFY OTP ================= -->
+    <form
+      *ngIf="logInWithOTP && enterOTP"
+      [formGroup]="verifyOTPForm"
+      (ngSubmit)="verifyOtp()"
+    >
 
-      <!-- Email / Mobile -->
-      <input type="text" formControlName="otp" placeholder="Enter OTP" class="auth-input" required />
+      <input type="text" formControlName="otp" placeholder="Enter OTP" class="auth-input" />
 
-      <!-- <input type="text" formControlName="mobile" numbersOnly placeholder="Phone number" class="auth-input" required /> -->
-
-      <!-- Action Button -->
       <button class="primary-btn" type="submit">
         Verify OTP
       </button>
 
     </form>
 
-    <!-- Footer -->
-    <div class="footer-text">
-      <span>New here?</span> <strong>Create your RepForge account</strong>
-    </div>
-
   </div>
 </div>
 
+<!-- Popup -->
 <app-popup
   [show]="showPopup"
   [message]="popupMessage"
