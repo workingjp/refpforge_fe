@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AuthService } from './auth.service';
+import { SnackbarService } from '../snackbar/snackbar.service';
 
 @Component({
   selector: 'app-auth',
@@ -8,93 +11,123 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
+
   identifier: string = '';
   otp: string = '';
   step: 'SEND_OTP' | 'VERIFY_OTP' = 'SEND_OTP';
+
   loading: boolean = false;
   error: string = '';
   userInput: any;
+
   authForm: FormGroup;
-  logInWithOTP: boolean = false;
   loginForm: FormGroup;
+  verifyOTPForm: FormGroup;
+
+  logInWithOTP: boolean = false;
   enterOTP: boolean = false;
   verifyOTP: boolean = false;
-  verifyOTPForm: FormGroup;
-  savedEmail: any;
-  showPopup = false;
-  popupMessage = '';
-  isLogin = true; // true = Login form, false = Register form
 
-  
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  savedEmail: any;
+
+  showPopup: boolean = false;
+  popupMessage: string = '';
+
+  isLogin: boolean = true; // true = Login form, false = Register form
+
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private snackbar: SnackbarService,
+    private router: Router
+  ) {
     this.authForm = this.fb.group({
-      firstname: ['', [Validators.required,Validators.minLength(2),  Validators.pattern(/^[a-zA-Z ]+$/)]],
-      lastname: ['', [Validators.required,Validators.minLength(2),  Validators.pattern(/^[a-zA-Z ]+$/)]],
+      firstname: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern(/^[a-zA-Z ]+$/)
+        ]
+      ],
+      lastname: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern(/^[a-zA-Z ]+$/)
+        ]
+      ],
       email: ['', [Validators.required, Validators.email]],
-      mobile: ['', [Validators.required,Validators.pattern(/^[6-9]\d{9}$/)]],
-      password: ['', [Validators.required,
-      Validators.minLength(8),
-      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{3,}$/)]],
+      mobile: [
+        '',
+        [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{3,}$/
+          )
+        ]
+      ]
     });
 
-   this.loginForm = this.fb.group({
-  email: [
-    '',
-    [Validators.required, Validators.email]
-  ],
-  password: [
-    '',
-    [
-      Validators.required,
-      Validators.minLength(6),
-    ]
-  ]
-});
-
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
 
     this.verifyOTPForm = this.fb.group({
       otp: ['', [Validators.required]]
-    })
+    });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  createUser(): void {
+    const payload = this.authForm.value;
+
+    this.authService.createUser(payload).subscribe({
+      next: (res: any) => {
+        this.authService.saveToken(res.token);
+        this.snackbar.success('Login successful 🎉');
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err: any) => {
+        const msg =
+          err?.error?.message ||
+          err?.message ||
+          'Something went wrong. Please try again';
+
+        this.snackbar.info(msg);
+      }
+    });
   }
 
-createUser() {
-  console.log('called');
-  
-  // if (this.authForm.invalid) {
-  //   this.authForm.markAllAsTouched();
-  //   return;
-  // }
+  loginUser(): void {
+    const loginData = this.loginForm.value;
 
-  console.log('authform ');
-  
-  const payload = this.authForm.value;
+    this.authService.loginUser(loginData).subscribe({
+      next: (res: any) => {
+        this.authService.saveToken(res.token);
+        this.snackbar.success('Login successful 🎉');
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err: any) => {
+        const msg =
+          err?.error?.message ||
+          err?.message ||
+          'Something went wrong. Please try again';
 
-  this.authService.createUser(payload).subscribe({
-    next: (res: any) => {
+        this.snackbar.info(msg);
+      }
+    });
+  }
 
-      // this.openPopup(res?.message || 'User created successfully');
-      // redirect after success
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 1500);
-    },
-    error: (err: any) => {
-      const msg =
-        err?.error?.message ||
-        err?.message ||
-        'Something went wrong. Please try again';
-
-      this.openPopup(msg);
-    }
-  });
-}
-
-  sendOtp() {
-    console.log(this.loginForm.value);
-
+  sendOtp(): void {
     this.authService.sendOtp(this.loginForm.value).subscribe({
       next: () => {
         this.savedEmail = this.loginForm.value;
@@ -106,41 +139,46 @@ createUser() {
     });
   }
 
-  verifyOtp() {
-    console.log(this.savedEmail, this.verifyOTPForm.value);
-
-    this.authService.verifyOtp(this.savedEmail, this.verifyOTPForm.value).subscribe({
-      next: res => {
-        this.authService.saveToken(res.token);
-        window.location.href = '/dashboard';
-      },
-      error: err => {
-        this.error = err.error.message;
-      }
-    });
+  verifyOtp(): void {
+    this.authService
+      .verifyOtp(this.savedEmail, this.verifyOTPForm.value)
+      .subscribe({
+        next: res => {
+          this.authService.saveToken(res.token);
+          this.router.navigate(['/dashboard']);
+        },
+        error: err => {
+          this.error = err.error.message;
+        }
+      });
   }
 
-  get firstname() { return this.authForm.get('firstname'); }
-  get lastname() { return this.authForm.get('lastname'); }
-  get email() { return this.authForm.get('email') }
-  // && this.loginForm.get('email');
-  get mobile() { return this.authForm.get('mobile'); }
-  get password() { return this.authForm.get('password'); }
-
-  openPopup(msg: string) {
-    this.popupMessage = msg;
-    this.showPopup = true;
+  // getters (used in template)
+  get firstname() {
+    return this.authForm.get('firstname');
   }
 
-  closePopup() {
-    this.showPopup = false;
+  get lastname() {
+    return this.authForm.get('lastname');
   }
-  showLogin() {
+
+  get email() {
+    return this.authForm.get('email');
+  }
+
+  get mobile() {
+    return this.authForm.get('mobile');
+  }
+
+  get password() {
+    return this.authForm.get('password');
+  }
+
+  showLogin(): void {
     this.isLogin = true;
   }
 
-  showRegister() {
+  showRegister(): void {
     this.isLogin = false;
   }
-
 }

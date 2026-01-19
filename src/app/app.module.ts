@@ -15,13 +15,16 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PopupComponent } from './features/popup/popup.component';
+import { SnackbarComponent } from './features/snackbar/snackbar.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     AuthComponent,
-    PopupComponent
+    PopupComponent,
+    SnackbarComponent
   ],
   imports: [
     FormsModule,
@@ -32,7 +35,8 @@ import { PopupComponent } from './features/popup/popup.component';
     BrowserAnimationsModule,
     MatCardModule,
     MatProgressBarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule 
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

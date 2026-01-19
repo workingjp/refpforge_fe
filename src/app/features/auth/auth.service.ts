@@ -16,6 +16,12 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/create-user`,  data );
   }
 
+  loginUser(data: any): Observable<any> {
+    console.log("DATA==>>", data);
+    return this.http.post(`${this.API_URL}/login-pass`,  data );
+  }
+
+
   sendOtp(data: any): Observable<any> {
     return this.http.post(`${this.API_URL}/send-otp`, data );
   }
