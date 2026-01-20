@@ -18,6 +18,7 @@ import { PopupComponent } from './features/popup/popup.component';
 import { SnackbarComponent } from './features/snackbar/snackbar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BmrComponent } from './features/bmr/bmr.component';
+import { WorkoutComponent } from './features/workout/workout.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BmrComponent } from './features/bmr/bmr.component';
     AuthComponent,
     PopupComponent,
     SnackbarComponent,
-    BmrComponent
+    BmrComponent,
+    WorkoutComponent
   ],
   imports: [
     FormsModule,

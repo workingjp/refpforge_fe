@@ -1,0 +1,52 @@
+<div class="rf-container">
+
+    <h2 class="page-title">All Workouts</h2>
+
+    <div class="exercise-grid">
+
+        <div class="exercise-card" *ngFor="let ex of exercises">
+
+            <!-- IMAGE SLIDER -->
+            <div class="image-slider">
+                <img [src]="'assets/workout_imgs/'+ex.images[activeImageIndex[ex._id] || 0]" alt="{{ ex.name }}" />
+
+                <button class="nav left" (click)="prevImage(ex._id)">‹</button>
+                <button class="nav right" (click)="nextImage(ex._id, ex.images.length)">›</button>
+            </div>
+
+            <!-- BODY -->
+            <div class="exercise-body">
+
+                <div class="title-row">
+                    <h4>{{ ex.name }}</h4>
+
+                    <!-- INFO TOOLTIP -->
+                    <div class="info-wrapper">
+                        <span class="info-icon">i</span>
+
+                        <div class="tooltip">
+                            <strong>Instructions</strong>
+                            <ul>
+                                <li *ngFor="let step of ex.instructions">
+                                    {{ step }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="meta">
+                    <span><b>Primary Muscle:</b> {{ ex.primaryMuscles[0] }}</span>
+                    <span><b>Equipment:</b> {{ ex.equipment }}</span>
+                    <span><b>Force:</b> {{ ex.force }}</span>
+                </p>
+
+                <button class="neon-btn full" (click)="addToProgramme(ex)">
+                    + Add to My Programme
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
