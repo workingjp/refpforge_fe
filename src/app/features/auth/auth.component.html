@@ -92,7 +92,15 @@
     </small>
   </div>
 
-  <input type="text" formControlName="mobile" placeholder="Phone number" class="auth-input" />
+   <input
+    type="text"
+    formControlName="mobile"
+    placeholder="Mobile Number"
+    class="auth-input"
+    maxlength="10"
+    inputmode="numeric"
+    (input)="onMobileInput($event)"
+  />
   <div class="error" *ngIf="authForm.get('mobile')?.touched && authForm.get('mobile')?.invalid">
     <small *ngIf="authForm.get('mobile')?.errors?.['required']">
       Mobile number is required
@@ -137,37 +145,80 @@
 
     <!-- ================= OTP : SEND OTP ================= -->
     <form
-      *ngIf="logInWithOTP && !enterOTP"
-      [formGroup]="loginForm"
-      (ngSubmit)="sendOtp()"
-    >
+  *ngIf="logInWithOTP && !enterOTP"
+  [formGroup]="mobileOtpForm"
+  (ngSubmit)="sendOtp()"
+>
 
-      <input type="text" formControlName="email" placeholder="Email" class="auth-input" />
-      <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-        <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
-        <small *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email</small>
-      </div>
+  <input
+    type="text"
+    formControlName="mobile"
+    placeholder="Mobile Number"
+    class="auth-input"
+    maxlength="10"
+    inputmode="numeric"
+    (input)="onMobileInput($event)"
+  />
 
-      <button class="primary-btn" type="submit">
-        Send OTP
-      </button>
+  <div class="error"
+    *ngIf="mobileOtpForm.get('mobile')?.touched && mobileOtpForm.get('mobile')?.invalid">
 
-    </form>
+    <small *ngIf="mobileOtpForm.get('mobile')?.errors?.['required']">
+      Mobile number is required
+    </small>
+
+    <small *ngIf="mobileOtpForm.get('mobile')?.errors?.['pattern']">
+      Enter valid 10-digit mobile number
+    </small>
+
+  </div>
+
+  <button
+    class="primary-btn"
+    type="submit"
+    [disabled]="mobileOtpForm.invalid">
+    Send OTP
+  </button>
+
+  <div class="footer-text">
+    <strong (click)="logInWithOTP = false" style="cursor:pointer">
+      Back to Login
+    </strong>
+  </div>
+
+</form>
+
 
     <!-- ================= OTP : VERIFY OTP ================= -->
-    <form
-      *ngIf="logInWithOTP && enterOTP"
-      [formGroup]="verifyOTPForm"
-      (ngSubmit)="verifyOtp()"
-    >
+   <form
+  *ngIf="logInWithOTP && enterOTP"
+  [formGroup]="verifyOTPForm"
+  (ngSubmit)="verifyOtp()"
+>
 
-      <input type="text" formControlName="otp" placeholder="Enter OTP" class="auth-input" />
+  <input
+    type="text"
+    formControlName="otp"
+    placeholder="Enter OTP"
+    class="auth-input"
+    maxlength="6"
+    inputmode="numeric"
+  />
 
-      <button class="primary-btn" type="submit">
-        Verify OTP
-      </button>
+  <div class="error"
+    *ngIf="verifyOTPForm.get('otp')?.touched && verifyOTPForm.get('otp')?.invalid">
+    <small>OTP is required</small>
+  </div>
 
-    </form>
+  <button
+    class="primary-btn"
+    type="submit"
+    [disabled]="verifyOTPForm.invalid">
+    Verify OTP
+  </button>
+
+</form>
+
 
   </div>
 </div>

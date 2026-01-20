@@ -23,12 +23,14 @@ export class AuthComponent implements OnInit {
   authForm: FormGroup;
   loginForm: FormGroup;
   verifyOTPForm: FormGroup;
+  mobileOtpForm:FormGroup;
 
   logInWithOTP: boolean = false;
   enterOTP: boolean = false;
   verifyOTP: boolean = false;
 
   savedEmail: any;
+  savedMobileNo:any;
 
   showPopup: boolean = false;
   popupMessage: string = '';
@@ -80,6 +82,18 @@ export class AuthComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
+    
+    this.mobileOtpForm = this.fb.group({
+      mobile: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]{10}$/)
+        ]
+      ]
+    });
+
+
     this.verifyOTPForm = this.fb.group({
       otp: ['', [Validators.required]]
     });
@@ -128,9 +142,9 @@ export class AuthComponent implements OnInit {
   }
 
   sendOtp(): void {
-    this.authService.sendOtp(this.loginForm.value).subscribe({
+    this.authService.sendOtp(this.mobileOtpForm.value).subscribe({
       next: () => {
-        this.savedEmail = this.loginForm.value;
+        this.savedMobileNo = this.mobileOtpForm.value;
         this.enterOTP = true;
       },
       error: err => {
@@ -141,7 +155,7 @@ export class AuthComponent implements OnInit {
 
   verifyOtp(): void {
     this.authService
-      .verifyOtp(this.savedEmail, this.verifyOTPForm.value)
+      .verifyOtp(this.savedMobileNo, this.verifyOTPForm.value)
       .subscribe({
         next: res => {
           this.authService.saveToken(res.token);
@@ -173,6 +187,13 @@ export class AuthComponent implements OnInit {
   get password() {
     return this.authForm.get('password');
   }
+
+  onMobileInput(event: Event) {
+  const input = event.target as HTMLInputElement;
+  input.value = input.value.replace(/[^0-9]/g, '');
+  this.mobileOtpForm.get('mobile')?.setValue(input.value, { emitEvent: false });
+}
+
 
   showLogin(): void {
     this.isLogin = true;

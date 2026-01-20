@@ -1,0 +1,60 @@
+<form class="gym-form" [formGroup]="bmrForm" (ngSubmit)="calculateBmr()">
+
+  <h2>BMR Calculator</h2>
+
+  <!-- Name -->
+  <input
+    type="text"
+    formControlName="name"
+    placeholder="Full Name"
+  />
+  <small class="error" *ngIf="bmrForm.get('name')?.touched && bmrForm.get('name')?.invalid">
+    Name is required
+  </small>
+
+  <!-- Gender -->
+  <select formControlName="gender">
+    <option value="" disabled>Select Gender</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+  </select>
+  <small class="error" *ngIf="bmrForm.get('gender')?.touched && bmrForm.get('gender')?.invalid">
+    Gender is required
+  </small>
+
+  <!-- Age -->
+  <input
+    type="number"
+    formControlName="age"
+    placeholder="Age (years)"
+  />
+  <small class="error" *ngIf="bmrForm.get('age')?.touched && bmrForm.get('age')?.invalid">
+    Enter a valid age
+  </small>
+
+  <!-- Height -->
+  <input
+    type="number"
+    formControlName="height"
+    placeholder="Height (cm)"
+  />
+  <small class="error" *ngIf="bmrForm.get('height')?.touched && bmrForm.get('height')?.invalid">
+    Enter valid height
+  </small>
+
+  <!-- Weight -->
+  <input
+    type="number"
+    formControlName="weight"
+    placeholder="Weight (kg)"
+  />
+  <small class="error" *ngIf="bmrForm.get('weight')?.touched && bmrForm.get('weight')?.invalid">
+    Enter valid weight
+  </small>
+
+  <!-- Submit -->
+  <button type="submit" [disabled]="bmrForm.invalid">
+    Calculate BMR
+  </button>
+
+</form>
