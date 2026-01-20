@@ -72,15 +72,25 @@ export class AuthComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
           Validators.pattern(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{3,}$/
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
           )
         ]
       ]
+
     });
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+          )
+        ]
+      ]
     });
 
     this.logInWithOtpForm = this.fb.group({
@@ -151,9 +161,13 @@ export class AuthComponent implements OnInit {
       next: () => {
         this.savedMobileNo = this.mobileOtpForm.value;
         this.enterOTP = true;
+        this.snackbar.success('Otp sent successfully 🎉');
+
       },
       error: err => {
         this.error = err.error.message;
+        this.snackbar.error(this.error);
+
       }
     });
   }
@@ -168,6 +182,7 @@ export class AuthComponent implements OnInit {
         },
         error: err => {
           this.error = err.error.message;
+          this.snackbar.error(this.error);
         }
       });
   }
