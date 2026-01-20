@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PopupComponent } from './features/popup/popup.component';
 import { SnackbarComponent } from './features/snackbar/snackbar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BmrComponent } from './features/bmr/bmr.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     DashboardComponent,
     AuthComponent,
     PopupComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    BmrComponent
   ],
   imports: [
     FormsModule,

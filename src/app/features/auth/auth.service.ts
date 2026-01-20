@@ -27,6 +27,7 @@ export class AuthService {
   }
 
   verifyOtp(data2: any, data: any): Observable<any> {
+    console.log(data2);
     let mobile = data2.mobile;
     let otp = data.otp;
     return this.http.post(`${this.API_URL}/verify-otp`, { mobile, otp });
