@@ -22,13 +22,14 @@ export class AuthComponent implements OnInit {
 
   authForm: FormGroup;
   loginForm: FormGroup;
+  logInWithOtpForm:FormGroup;
   verifyOTPForm: FormGroup;
 
   logInWithOTP: boolean = false;
   enterOTP: boolean = false;
   verifyOTP: boolean = false;
 
-  savedEmail: any;
+  savedMobile: any;
 
   showPopup: boolean = false;
   popupMessage: string = '';
@@ -80,6 +81,10 @@ export class AuthComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
+    this.logInWithOtpForm = this.fb.group({
+      mobile: ['', [Validators.required,  Validators.pattern(/^[6-9]\d{9}$/)]]
+    });
+
     this.verifyOTPForm = this.fb.group({
       otp: ['', [Validators.required]]
     });
@@ -128,9 +133,9 @@ export class AuthComponent implements OnInit {
   }
 
   sendOtp(): void {
-    this.authService.sendOtp(this.loginForm.value).subscribe({
+    this.authService.sendOtp(this.logInWithOtpForm.value).subscribe({
       next: () => {
-        this.savedEmail = this.loginForm.value;
+        this.savedMobile = this.logInWithOtpForm.value;
         this.enterOTP = true;
       },
       error: err => {
@@ -141,7 +146,7 @@ export class AuthComponent implements OnInit {
 
   verifyOtp(): void {
     this.authService
-      .verifyOtp(this.savedEmail, this.verifyOTPForm.value)
+      .verifyOtp(this.savedMobile, this.verifyOTPForm.value)
       .subscribe({
         next: res => {
           this.authService.saveToken(res.token);

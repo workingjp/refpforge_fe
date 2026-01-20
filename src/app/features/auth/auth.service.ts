@@ -27,9 +27,9 @@ export class AuthService {
   }
 
   verifyOtp(data2: any, data: any): Observable<any> {
-    let identifier = data2.email;
+    let mobile = data2.mobile;
     let otp = data.otp;
-    return this.http.post(`${this.API_URL}/verify-otp`, { identifier, otp });
+    return this.http.post(`${this.API_URL}/verify-otp`, { mobile, otp });
   }
 
   getProfileTemp() {

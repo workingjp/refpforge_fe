@@ -138,14 +138,13 @@
     <!-- ================= OTP : SEND OTP ================= -->
     <form
       *ngIf="logInWithOTP && !enterOTP"
-      [formGroup]="loginForm"
+      [formGroup]="logInWithOtpForm"
       (ngSubmit)="sendOtp()"
     >
 
-      <input type="text" formControlName="email" placeholder="Email" class="auth-input" />
-      <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-        <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
-        <small *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email</small>
+      <input type="text" formControlName="mobile" placeholder="Mobile" class="auth-input" />
+      <div class="error" *ngIf="logInWithOtpForm.get('mobile')?.touched && logInWithOtpForm.get('mobile')?.invalid">
+        <small *ngIf="logInWithOtpForm.get('mobile')?.errors?.['required']">Mobile is required</small>
       </div>
 
       <button class="primary-btn" type="submit">
