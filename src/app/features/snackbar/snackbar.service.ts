@@ -17,21 +17,40 @@ export class SnackbarService {
     this.snackBar.openFromComponent(SnackbarComponent, {
       data: { message, type },
       duration,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
       panelClass: ['custom-snackbar']
     });
   }
 
   success(message: string) {
-    this.open(message, 'success');
-  }
+  this.snackBar.openFromComponent(SnackbarComponent, {
+    data: { message },
+    duration: 3000,
+    horizontalPosition: 'center',
+    verticalPosition: 'bottom',
+    panelClass: ['success']
+  });
+}
 
-  error(message: string) {
-    this.open(message, 'error');
-  }
+error(message: string) {
+  this.snackBar.openFromComponent(SnackbarComponent, {
+    data: { message },
+    duration: 3000,
+    horizontalPosition: 'center',
+    verticalPosition: 'bottom',
+    panelClass: ['error']
+  });
+}
 
-  info(message: string) {
-    this.open(message, 'info');
-  }
+info(message: string) {
+  this.snackBar.openFromComponent(SnackbarComponent, {
+    data: { message },
+    duration: 3000,
+    horizontalPosition: 'center',
+    verticalPosition: 'bottom',
+    panelClass: ['info']
+  });
+}
+
 }
