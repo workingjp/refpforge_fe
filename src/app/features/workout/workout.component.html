@@ -1,6 +1,40 @@
+
+
+
 <div class="rf-container">
 
-    <h2 class="page-title">All Workouts</h2>
+ <div class="workout-navbar">
+  <h2 class="title">All Workouts</h2>
+
+  <div class="actions">
+    <!-- Search -->
+    <input
+      type="text"
+      class="nav-search"
+      placeholder="Search workouts..."
+  (input)="onSearch($event)"
+    />
+
+    <!-- Filter -->
+    <select class="nav-select">
+      <option value="" disabled selected>Filter</option>
+      <option value="strength">Strength</option>
+      <option value="cardio">Cardio</option>
+      <option value="hiit">HIIT</option>
+      <option value="yoga">Yoga</option>
+    </select>
+
+    <!-- Sort -->
+    <select class="nav-select">
+      <option value="" disabled selected>Sort</option>
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+      <option value="duration">Duration</option>
+      <option value="difficulty">Difficulty</option>
+    </select>
+  </div>
+</div>
+
 
     <div class="exercise-grid">
 

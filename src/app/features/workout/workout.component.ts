@@ -14,37 +14,38 @@ export class WorkoutComponent implements OnInit {
 
   exercises: any = [];
   activeImageIndex: Record<string, number> = {};
+filteredExercises:any =[]
+
+ ngOnInit(): void {
+  this._observable.workoutApi.subscribe((res: any) => {
+    // Original exercises
+    this.exercises = res.data || [];
+    console.log('Original exercises:', this.exercises);
+
+    // Map to add/rename properties if needed
+    this.exercises = this.exercises.map((item: any) => ({
+      // rename or copy fields if required
+      name: item.name,           // already exists, can remove
+      equipment: item.equipment  // corrected typo from 'equipeent'
+    }));
+
+    // Copy for filtering/searching
+    this.filteredExercises = [...this.exercises];
+    console.log('Filtered exercises:', this.filteredExercises);
+  });
+}
+
+searchText: string = '';
+
+onSearch(event: Event) {
+  const value = (event.target as HTMLInputElement).value
+    .toLowerCase()
+    .trim();
+console.log(value);
+
+}
 
 
-  ngOnInit(): void {
-
-    this._observable.workoutApi.subscribe((res: any) => {
-        // this.exercises.push(res.data);
-        this.exercises = res.data;
-      console.log(this.exercises);
-    });
-
-    // this.exercises = [
-    //   {
-    //     _id: '696f1d679d7d7cb4096a30cc',
-    //     name: '3/4 Sit-Up',
-    //     force: 'pull',
-    //     equipment: 'body only',
-    //     primaryMuscles: ['abdominals'],
-    //     instructions: [
-    //       'Lie down on the floor and secure your feet.',
-    //       'Place your hands behind your head.',
-    //       'Raise your torso toward your knees.',
-    //       'Reverse the motion ¾ of the way down.',
-    //       'Repeat for reps.'
-    //     ],
-    //     images: [
-    //       'assets/workout_imgs/3_4_Sit-Up/0.jpg',
-    //       'assets/workout_imgs/3_4_Sit-Up/1.jpg'
-    //     ]
-    //   }
-    // ];
-  }
 
   nextImage(id: string, total: number) {
     this.activeImageIndex[id] =

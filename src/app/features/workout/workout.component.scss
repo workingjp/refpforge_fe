@@ -290,4 +290,71 @@
     transform: translate(-50%, 0);
   }
 }
+.workout-navbar {
+  height: 60px;
+  background: linear-gradient(180deg, #020617, #0f172a);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+  padding: 0 24px;
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e5e7eb;
+    letter-spacing: 0.3px;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Search Bar */
+  .nav-search {
+    width: 500px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #e5e7eb;
+
+    outline: none;
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+
+    &:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+    }
+  }
+
+  /* Dropdowns */
+  .nav-select {
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+width: 200px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+
+    option {
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    &:hover {
+      background: rgba(56, 189, 248, 0.15);
+    }
+  }
+}

@@ -9,7 +9,10 @@ export class AuthService {
 
   private API_URL = 'http://localhost:5000/api/auth';
 
-  constructor(private http: HttpClient) { }
+  private TOKEN_KEY = 'token';
+  private EXPIRY_KEY = 'token_expiry';
+
+  constructor(private http: HttpClient) {}
 
   createUser(data: any): Observable<any> {
     console.log("DATA==>>", data);
@@ -33,20 +36,53 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/verify-otp`, { mobile, otp });
   }
 
-  getProfileTemp() {
+  getProfileTemp(): Observable<any> {
     return this.http.get('http://localhost:5000/api/user/profile');
   }
 
 
-  saveToken(token: string) {
-    localStorage.setItem('token', token);
+  saveToken(token: string): void {
+    const expiryTime = Date.now() + (3 * 24 * 60 * 60 * 1000); // 3 days
+    localStorage.setItem(this.TOKEN_KEY, token);
+    localStorage.setItem(this.EXPIRY_KEY, expiryTime.toString());
   }
 
-  getToken() {
-    return localStorage.getItem('token');
+  // ✅ Get token only if valid
+  getToken(): string | null {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    const expiry = localStorage.getItem(this.EXPIRY_KEY);
+
+    if (!token || !expiry) {
+      return null;
+    }
+
+    if (Date.now() > Number(expiry)) {
+      this.clearToken(); // auto logout
+      return null;
+    }
+
+    return token;
   }
 
-  logout() {
-    localStorage.removeItem('token');
+  // ✅ Logged-in check
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  // ✅ Explicit expiry check
+  isTokenExpired(): boolean {
+    const expiry = localStorage.getItem(this.EXPIRY_KEY);
+    return !expiry || Date.now() > Number(expiry);
+  }
+
+  // ✅ Logout / clear everything
+  logout(): void {
+    this.clearToken();
+  }
+
+  // ✅ Internal cleanup
+  private clearToken(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.EXPIRY_KEY);
   }
 }
