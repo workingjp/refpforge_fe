@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BmrService } from './bmr.service';
 import { SnackbarService } from '../snackbar/snackbar.service';
-import { SubjectService } from 'src/app/services/subject.service';
+import { SubjectService } from 'src/app/core/services/subject.service';
 
 @Component({
   selector: 'app-bmr',

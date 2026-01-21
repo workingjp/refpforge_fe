@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import { AuthService } from '../auth/auth.service';
-import { SubjectService } from 'src/app/services/subject.service';
+import { SubjectService } from 'src/app/core/services/subject.service';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 
