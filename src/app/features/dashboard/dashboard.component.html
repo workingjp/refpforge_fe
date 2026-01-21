@@ -24,9 +24,9 @@
             <h2>Welcome Back, John!</h2>
             <p>BMR Score: <span class="lime">1780 kcal/day</span></p>
         </div>
-<button (click)="testProfile()">
+<!-- <button (click)="testProfile()">
   Test Protected API
-</button>
+</button> -->
         <!-- TOP ROW -->
         <div class="grid-2">
 
@@ -93,4 +93,4 @@
 
     </div>
 </div>
-<app-bmr></app-bmr>
+<app-bmr *ngIf="showBmrPopup"></app-bmr>

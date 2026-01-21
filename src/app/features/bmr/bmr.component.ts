@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BmrService } from './bmr.service';
 import { SnackbarService } from '../snackbar/snackbar.service';
+import { SubjectService } from 'src/app/services/subject.service';
 
 @Component({
   selector: 'app-bmr',
@@ -11,8 +12,20 @@ import { SnackbarService } from '../snackbar/snackbar.service';
 export class BmrComponent implements OnInit {
 
   bmrForm!: FormGroup;
+  showBmrPopup: boolean = false; // <-- flag to show/hide popup
 
-  constructor(private fb: FormBuilder , private BMR_Service : BmrService, private snackbar:SnackbarService) {}
+  constructor(
+    private fb: FormBuilder,
+    private BMR_Service: BmrService,
+    private snackbar: SnackbarService,
+    private subject : SubjectService
+
+    
+  ) {
+
+      console.log('BMR component created');
+
+  }
 
   ngOnInit(): void {
     this.bmrForm = this.fb.group({
@@ -38,18 +51,33 @@ export class BmrComponent implements OnInit {
         [Validators.required, Validators.min(30), Validators.max(300)]
       ]
     });
+
+    // this.openBmrPopup()
   }
 
-  
-get f() {
-  return this.bmrForm.controls as {
-    name: AbstractControl;
-    gender: AbstractControl;
-    age: AbstractControl;
-    height: AbstractControl;
-    weight: AbstractControl;
-  };
-}
+  close(): void{
+    this.subject.close();
+  }
+  // getter for easy access in template
+  get f() {
+    return this.bmrForm.controls as {
+      name: AbstractControl;
+      gender: AbstractControl;
+      age: AbstractControl;
+      height: AbstractControl;
+      weight: AbstractControl;
+    };
+  }
+
+  // open popup
+  openBmrPopup() {
+    this.showBmrPopup = true;
+  }
+
+  // close popup
+  closeBmrPopup() {
+    this.showBmrPopup = false;
+  }
 
   calculateBmr() {
     if (this.bmrForm.invalid) {
@@ -57,23 +85,22 @@ get f() {
       return;
     }
 
-    // this.BMR_Service.addbmrscore(this.bmrForm.value).subscribe(){
- this.BMR_Service.addbmrscore(this.bmrForm.value).subscribe({
+    this.BMR_Service.addbmrscore(this.bmrForm.value).subscribe({
       next: (res: any) => {
-        console.log(res.bmr);
-        
-        this.snackbar.success('your bmr score is' + res.bmr);
-        // this.router.navigate(['/dashboard']);
+        console.log('BMR Result:', res.bmr);
+        this.snackbar.success('Your BMR score is ' + res.bmr);
+        sessionStorage.setItem('isNewUser','0')
+        this.close(); // close popup after calculation
       },
       error: (err: any) => {
         const msg =
           err?.error?.message ||
           err?.message ||
           'Something went wrong. Please try again';
-
         this.snackbar.info(msg);
       }
     });
+
     console.log('BMR Form Data:', this.bmrForm.value);
   }
 }

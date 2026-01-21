@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import { AuthService } from '../auth/auth.service';
+import { SubjectService } from 'src/app/services/subject.service';
 
 Chart.register(
   BarController,
@@ -24,9 +25,26 @@ Chart.register(
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
-
+  constructor(private authService: AuthService , private subject : SubjectService) {
+  }
+  showBmrPopup: boolean = false;
   ngOnInit(): void {
+    let x =    sessionStorage.getItem('isNewUser')
+    if (x == '1') {
+      this.subject.bmrPopup$.subscribe(value => {
+        console.log('Popup value:', value);
+        this.showBmrPopup = value;
+      });
+      this.subject.open();   
+    }
+
+  }
+  openBmrPopup(): void {
+    this.showBmrPopup = true;
+  }
+   closeBmrPopup() {
+    
+    this.showBmrPopup = false;
   }
   ngAfterViewInit(): void {
     this.initPerformanceChart();

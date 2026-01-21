@@ -122,6 +122,8 @@ export class AuthComponent implements OnInit {
     this.authService.createUser(payload).subscribe({
       next: (res: any) => {
         this.authService.saveToken(res.token);
+        sessionStorage.setItem('isNewUser','1')
+        console.log(res.token);
         this.snackbar.success('Login successful 🎉');
         this.router.navigate(['/dashboard']);
       },
@@ -142,6 +144,7 @@ export class AuthComponent implements OnInit {
     this.authService.loginUser(loginData).subscribe({
       next: (res: any) => {
         this.authService.saveToken(res.token);
+        sessionStorage.setItem('isNewUser','0')
         this.snackbar.success('Login successful 🎉');
         this.router.navigate(['/dashboard']);
       },
