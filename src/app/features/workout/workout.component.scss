@@ -1,3 +1,193 @@
+/* ================================
+   FILTER BAR CONTAINER
+================================ */
+.filters-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  margin-bottom: 18px;
+  background: linear-gradient(90deg, #040a18, #020617);
+  border-radius: 12px;
+}
+
+.filters-bar .title {
+  color: #e5f4ff;
+  font-size: 22px;
+  font-weight: 600;
+  margin-right: 16px;
+  white-space: nowrap;
+}
+
+/* ================================
+   FILTERS ROW
+================================ */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ================================
+   INPUT & SELECT (UNIFIED)
+================================ */
+.filters input,
+.filters select {
+  height: 38px;
+  min-width: 150px;
+  padding: 0 14px;
+  background: rgba(8, 16, 40, 0.95);
+  color: #e6f6ff;
+  border: 1px solid rgba(0, 190, 255, 0.35);
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+/* Placeholder */
+.filters input::placeholder {
+  color: rgba(200, 220, 255, 0.55);
+}
+
+/* Hover */
+.filters input:hover,
+.filters select:hover {
+  border-color: rgba(0, 210, 255, 0.6);
+}
+
+/* Focus */
+.filters input:focus,
+.filters select:focus {
+  border-color: #1fd1ff;
+  box-shadow: 0 0 0 2px rgba(31, 209, 255, 0.15);
+  background: rgba(10, 22, 55, 1);
+}
+
+/* ================================
+   SELECT DROPDOWN ARROW
+================================ */
+.filters select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 34px;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, #1fd1ff 50%),
+    linear-gradient(135deg, #1fd1ff 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 16px,
+    calc(100% - 12px) 16px;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* ================================
+   SORT DROPDOWN (SAME STYLE)
+================================ */
+.filters select.sort {
+  border-color: #1fd1ff;
+  box-shadow: inset 0 0 0 1px rgba(31, 209, 255, 0.25);
+}
+
+/* Fix disabled option color */
+.filters select option:disabled {
+  color: rgba(180, 200, 230, 0.6);
+}
+
+/* ================================
+   CLEAR BUTTON
+================================ */
+.clear-btn {
+  height: 38px;
+  padding: 0 16px;
+  background: rgba(8, 16, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  color: #e6f6ff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.clear-btn:hover {
+  border-color: #1fd1ff;
+  color: #1fd1ff;
+  box-shadow: 0 0 0 2px rgba(31, 209, 255, 0.15);
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 900px) {
+  .filters-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .filters {
+    width: 100%;
+  }
+
+  .filters input,
+  .filters select,
+  .clear-btn {
+    width: 100%;
+  }
+}
+
+.no-results {
+  margin: 60px auto;
+  padding: 40px 30px;
+  max-width: 520px;
+  text-align: center;
+  background: linear-gradient(180deg, #040a18, #020617);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 190, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  h3 {
+    color: #e6f6ff;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .quote {
+    color: rgba(140, 200, 255, 0.9);
+    font-style: italic;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .hint {
+    color: rgba(200, 220, 255, 0.6);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+/* Reset Button */
+.reset-btn {
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #1fd1ff, #1aa3ff);
+  border: none;
+  border-radius: 12px;
+  color: #001018;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.reset-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(31, 209, 255, 0.35);
+}
+
+
 .exercise-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -335,6 +525,119 @@
       box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
     }
   }
+
+  .filters-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: linear-gradient(90deg, #050b1e, #020617);
+  border-radius: 12px;
+
+  .title {
+    color: #e5f4ff;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-right: 20px;
+    white-space: nowrap;
+  }
+
+  .filters {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+}
+
+/* 🔍 Input + Select unified style */
+.filters input,
+.filters select {
+  height: 40px;
+  min-width: 170px;
+  padding: 0 14px;
+  background: rgba(10, 20, 45, 0.9);
+  color: #e5f4ff;
+  border: 1px solid rgba(0, 180, 255, 0.35);
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.25s ease;
+
+  &::placeholder {
+    color: rgba(200, 220, 255, 0.5);
+  }
+
+  &:hover {
+    border-color: rgba(0, 200, 255, 0.6);
+  }
+
+  &:focus {
+    border-color: #1fd1ff;
+    box-shadow: 0 0 0 2px rgba(31, 209, 255, 0.15);
+    background: rgba(12, 25, 55, 0.95);
+  }
+}
+
+/* ▼ Select arrow styling */
+.filters select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #1fd1ff 50%),
+    linear-gradient(135deg, #1fd1ff 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 17px,
+    calc(100% - 12px) 17px;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+/* 🔵 Sort emphasis */
+.filters select.sort {
+  border-color: #1fd1ff;
+  box-shadow: inset 0 0 0 1px rgba(31, 209, 255, 0.25);
+}
+
+/* 🧹 Clear button */
+.clear-btn {
+  height: 40px;
+  padding: 0 18px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  color: #e5f4ff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #1fd1ff;
+    color: #1fd1ff;
+  }
+}
+
+/* 📱 Responsive */
+@media (max-width: 900px) {
+  .filters-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .filters {
+    width: 100%;
+    gap: 10px;
+
+    input,
+    select {
+      width: 100%;
+    }
+  }
+}
+
 
   /* Dropdowns */
   .nav-select {

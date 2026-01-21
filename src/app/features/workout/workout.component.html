@@ -1,60 +1,78 @@
-
-
-
 <div class="rf-container">
+    <div class="filters-bar">
+        <h2 class="title">All Workouts</h2>
 
- <div class="workout-navbar">
-  <h2 class="title">All Workouts</h2>
+        <div class="filters">
+            <input type="text" [disabled]="filteredExercises.length === 0" placeholder="Search workouts..."
+                [(ngModel)]="filters.search" (input)="applyFilters()" />
 
-  <div class="actions">
-    <!-- Search -->
-    <input
-      type="text"
-      class="nav-search"
-      placeholder="Search workouts..."
-  (input)="onSearch($event)"
-    />
+            <select [(ngModel)]="filters.primarymuscle" [disabled]="filteredExercises.length === 0" (change)="applyFilters()">
+                <option value="all">Primary Muscles</option>
+                <option *ngFor="let m of muscles" [value]="m">
+                    {{ m | titlecase }}
+                </option>
+            </select>
 
-    <!-- Filter -->
-    <select class="nav-select">
-      <option value="" disabled selected>Filter</option>
-      <option value="strength">Strength</option>
-      <option value="cardio">Cardio</option>
-      <option value="hiit">HIIT</option>
-      <option value="yoga">Yoga</option>
-    </select>
+            <select [(ngModel)]="filters.secondarymuscle" [disabled]="filteredExercises.length === 0" (change)="applyFilters()">
+                <option value="all">Secondary Muscles</option>
+                <option *ngFor="let m of muscles" [value]="m">
+                    {{ m | titlecase }}
+                </option>
+            </select>
 
-    <!-- Sort -->
-    <select class="nav-select">
-      <option value="" disabled selected>Sort</option>
-      <option value="newest">Newest</option>
-      <option value="oldest">Oldest</option>
-      <option value="duration">Duration</option>
-      <option value="difficulty">Difficulty</option>
-    </select>
-  </div>
-</div>
+            <select [(ngModel)]="filters.equipment" [disabled]="filteredExercises.length === 0"
+                (change)="applyFilters()">
+                <option value="all">All Equipment</option>
+                <option value="body only">Body Only</option>
+                <option value="dumbbell">Dumbbell</option>
+                <option value="barbell">Barbell</option>
+                <option value="cable">Cable</option>
+                <option value="machine">Machine</option>
+            </select>
+
+            <select [(ngModel)]="filters.level" [disabled]="filteredExercises.length === 0" (change)="applyFilters()">
+                <option value="all">All Levels</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="expert">Expert</option>
+            </select>
+
+            <button class="clear-btn" (click)="resetFilters()">Clear</button>
+        </div>
+    </div>
+
+    <div class="no-results" *ngIf="filteredExercises.length === 0">
+        <h3>No workouts found 💔</h3>
+
+        <p class="quote">
+            “Sometimes the best progress starts by clearing the clutter.”
+        </p>
+
+        <p class="hint">
+            Try resetting filters or changing your search terms.
+        </p>
+
+        <button class="reset-btn" (click)="resetFilters()">
+            Reset Filters
+        </button>
+    </div>
 
 
     <div class="exercise-grid">
 
-        <div class="exercise-card" *ngFor="let ex of exercises">
+        <div class="exercise-card" *ngFor="let ex of filteredExercises">
 
-            <!-- IMAGE SLIDER -->
             <div class="image-slider">
-                <img [src]="'assets/workout_imgs/'+ex.images[activeImageIndex[ex._id] || 0]" alt="{{ ex.name }}" />
-
+                <img [src]="getExerciseImage(ex)" alt="{{ ex.name }}" (error)="onImgError($event)" />
                 <button class="nav left" (click)="prevImage(ex._id)">‹</button>
                 <button class="nav right" (click)="nextImage(ex._id, ex.images.length)">›</button>
             </div>
 
-            <!-- BODY -->
             <div class="exercise-body">
 
                 <div class="title-row">
-                    <h4>{{ ex.name }}</h4>
+                    <h4>{{ capitalizeFirstLetter(ex.name) }}</h4>
 
-                    <!-- INFO TOOLTIP -->
                     <div class="info-wrapper">
                         <span class="info-icon">i</span>
 
@@ -70,9 +88,9 @@
                 </div>
 
                 <p class="meta">
-                    <span><b>Primary Muscle:</b> {{ ex.primaryMuscles[0] }}</span>
-                    <span><b>Equipment:</b> {{ ex.equipment }}</span>
-                    <span><b>Force:</b> {{ ex.force }}</span>
+                    <span><b>Primary Muscle:</b> {{ capitalizeFirstLetter(ex.primaryMuscles[0]) }}</span>
+                    <span><b>Equipment:</b> {{ capitalizeFirstLetter(ex.equipment) }}</span>
+                    <span><b>Force:</b> {{ ex.force | titlecase  }}</span>
                 </p>
 
                 <button class="neon-btn full" (click)="addToProgramme(ex)">
