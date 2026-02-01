@@ -8,6 +8,9 @@ import {
   Tooltip,
 } from 'chart.js';
 import { AuthService } from '../auth/auth.service';
+import { SubjectService } from 'src/app/core/services/subject.service';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/core/services/api.service';
 
 Chart.register(
   BarController,
@@ -24,13 +27,37 @@ Chart.register(
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,private router: Router, private _api:ApiService, private subject : SubjectService) { }
+  showBmrPopup: boolean = false;
 
   ngOnInit(): void {
+    let x =    sessionStorage.getItem('isNewUser')
+    if (x == '1') {
+      this.subject.bmrPopup$.subscribe(value => {
+        console.log('Popup value:', value);
+        this.showBmrPopup = value;
+      });
+      this.subject.open();   
+    }
+
   }
+  openBmrPopup(): void {
+    this.showBmrPopup = true;
+  }
+   closeBmrPopup() {
+    
+    this.showBmrPopup = false;
+  }
+
   ngAfterViewInit(): void {
     this.initPerformanceChart();
   }
+
+  goToWorkout() {
+    this._api.getAllWorkOutDataApi();
+    this.router.navigate(['/workout']);
+  }
+
   testProfile() {
     this.authService.getProfileTemp().subscribe({
       next: res => {
@@ -43,6 +70,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
   initPerformanceChart() {
     const ctx = document.getElementById(
       'performanceChart'

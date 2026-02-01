@@ -1,0 +1,95 @@
+/* Overlay */
+.bmr-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+/* Popup Card */
+.bmr-popup-card {
+  background: radial-gradient(120% 120% at top, #1e293b, #020617);
+  border-radius: 14px;
+  padding: 26px 24px;
+  width: 380px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow:
+    inset 0 0 25px rgba(56, 189, 248, 0.08),
+    0 25px 60px rgba(0, 0, 0, 0.85);
+  position: relative;
+  color: #e5e7eb;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 20px;
+  cursor: pointer;
+
+  &:hover {
+    color: #38bdf8;
+  }
+}
+
+/* Form */
+.gym-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #38bdf8;
+  }
+
+  input,
+  select {
+    background: #020617;
+    border: 1px solid #1f2933;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #e5e7eb;
+    outline: none;
+
+    &:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.3);
+    }
+  }
+
+  select option {
+    background: #020617;
+    color: #e5e7eb;
+  }
+
+  button {
+    margin-top: 12px;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    color: #020617;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* Error text */
+.error {
+  font-size: 0.75rem;
+  color: #f87171;
+}

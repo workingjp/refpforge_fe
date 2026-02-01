@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AuthComponent } from './features/auth/auth.component';
+import { WorkoutComponent } from './features/workout/workout.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard]
   },
+  { path: 'workout', component: WorkoutComponent },
   {
     path: '**',
     redirectTo: 'auth'
